@@ -1,0 +1,1 @@
+body{font-family:Inter,Source Sans Pro,sans-serif;margin:0}input[type=text]{padding:7px 5px}button{background:teal;border:none;outline:none;border-radius:5px;color:#fff;padding:5px;display:flex;align-items:center;justify-content:center;cursor:pointer}button[disabled]{background:#cbcbcb;cursor:default}
