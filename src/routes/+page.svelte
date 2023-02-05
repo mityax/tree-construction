@@ -4,27 +4,27 @@
         <table class="form-table">
             <tr>
                 <td>
-                    <label>Preorder:</label><br>
+                    <label><b>Pre</b>order:</label><br>
                 </td>
                 <td>
-                    <input type="text" bind:value={preOrderInput} /><br>
-                    <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B C D E F</ClickToCopy></span>
+                    <ClearableInput bind:value={preOrderInput} />
+                    <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B D E C F</ClickToCopy></span>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label>Inorder:</label><br>
+                    <label><b>In</b>order:</label><br>
                 </td>
                 <td>
-                    <input type="text" bind:value={inOrderInput} /><br>
+                    <ClearableInput bind:value={inOrderInput} />
                     <span class="subnote">e.g. <ClickToCopy>0  1  3  5  7  8  9  9</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
                 </td>
             </tr>
             <tr>
-                <td><label>Postorder:</label></td>
+                <td><label><b>Post</b>order:</label></td>
                 <td>
-                    <input type="text" bind:value={postOrderInput} /><br>
-                    <span class="subnote">e.g. <ClickToCopy>1 0 3 8 9 9 7 5</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
+                    <ClearableInput bind:value={postOrderInput} />
+                    <span class="subnote">e.g. <ClickToCopy>1 0 3 8 9 9 7 5</ClickToCopy> or <ClickToCopy>D E B F C A</ClickToCopy></span>
                 </td>
             </tr>
             <tr>
@@ -53,6 +53,7 @@
     import {buildTreeInPost, buildTreePreIn, TreeNode} from "../lib/tree";
     import Tree from "../lib/components/Tree.svelte";
     import ClickToCopy from "../lib/components/ClickToCopy.svelte";
+    import ClearableInput from "../lib/components/ClearableInput.svelte";
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";

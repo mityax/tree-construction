@@ -9,32 +9,28 @@ export class TreeNode<T> {
     }
 }
 
-export function buildTreePreIn<T>(preOrder: T[], inOrder: T[]): TreeNode<T> | null {
-    let preOrderIndex = 0;
 
-    function f(preOrder: T[], inOrder: T[], inStart: number, inEnd: number): TreeNode<T> | null {
-        if (inStart > inEnd || preOrderIndex >= preOrder.length) {
-            return null;
-        }
+export function buildTreePreIn<T>(preOrder: T[], inOrder: T[]): TreeNode<T>[] | null {
+    if (inOrder.length === 0 || preOrder.length === 0) {
+        return null;
+    }
 
-        const node = new TreeNode<T>(preOrder[preOrderIndex++]);
+    const node = new TreeNode<T>(preOrder[0]);
 
-        if (inStart == inEnd) {
-            return node;
-        }
+    const inIndex = inOrder.indexOf(node.data);
 
-        const inIndex = search(inOrder, inStart, inEnd, node.data);
-
-        node.left = f(preOrder, inOrder, inStart, inIndex - 1);
-        node.right = f(preOrder, inOrder, inIndex + 1, inEnd);
-
+    if (inOrder.length === 1 || preOrder.length === 1) {
         return node;
     }
 
-    return f(preOrder, inOrder, 0, preOrder.length - 1);
+    node.left = buildTreePreIn(preOrder.slice(1, inIndex + 1), inOrder.slice(0, inIndex))
+    node.right = buildTreePreIn(preOrder.slice(inIndex + 1), inOrder.slice(inIndex + 1));
+
+    return node;
 }
 
-export function buildTreeInPost<T>(inOrder: T[], postOrder: T[]): TreeNode<T> | null {
+
+export function buildTreeInPost<T>(inOrder: T[], postOrder: T[]): TreeNode<T>[] | null {
     if (inOrder.length === 0 || postOrder.length === 0) {
         return null;
     }
@@ -63,5 +59,5 @@ function search<T>(arr: T[], strt: number, end: number, value: T): number  {
         if (arr[i] == value)
             return i;
     }
-    return i;
+    return res;
 }
