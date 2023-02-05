@@ -18,7 +18,7 @@
 
     export let numberOfOptions: number;
 
-    let currentIndex: number = 0;
+    export let currentIndex: number = 0;
 
     function next() {
         currentIndex++;

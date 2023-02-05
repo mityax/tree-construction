@@ -1,6 +1,6 @@
 
 <div class="clearable-input">
-    <input type="text" bind:value={value} on:input {...inputProps}/>
+    <input type="text" bind:value={value} on:input placeholder={placeholder} {...inputProps}/>
     <div class="clear-button" class:hidden={value.trim().length === 0} on:click={clear}>
         <Icon name="x"/>
     </div>
@@ -13,6 +13,7 @@
     export let inputProps: Record<string, any>;
 
     export let value: string;
+    export let placeholder: string;
 
     const dispatch = createEventDispatcher();
 

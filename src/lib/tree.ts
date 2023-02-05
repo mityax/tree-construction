@@ -14,6 +14,41 @@ export class TreeNode<T> {
     copy(): TreeNode<T> {
         return new TreeNode<T>(this.data, this.left?.copy(), this.right?.copy());
     }
+
+    equals(other: TreeNode<T>): boolean {
+        let res = this.data === other.data;
+        if ((!this.left !== !other.left) || (other.left && !this.left?.equals(other.left))) {
+            res = false;
+        }
+        if ((!this.right !== !other.right) || (other.right && !this.right?.equals(other.right))) {
+            res = false;
+        }
+        return res;
+    }
+
+    preOrderTraversal(): T[] {
+        return [
+            this.data,
+            ...(this.left?.preOrderTraversal() || []),
+            ...(this.right?.preOrderTraversal() || []),
+        ];
+    }
+
+    inOrderTraversal(): T[] {
+        return [
+            ...(this.left?.inOrderTraversal() || []),
+            this.data,
+            ...(this.right?.inOrderTraversal() || []),
+        ];
+    }
+
+    postOrderTraversal(): T[] {
+        return [
+            ...(this.left?.postOrderTraversal() || []),
+            ...(this.right?.postOrderTraversal() || []),
+            this.data,
+        ];
+    }
 }
 
 

@@ -2,28 +2,28 @@
     <div class="form sidebar">
         <h1 style="text-align: center">Tree constructor</h1>
         <table class="form-table">
-            <tr class:used={usedInputs.pre}>
+            <tr>
                 <td>
                     <label><b>Pre</b>order:</label><br>
                 </td>
                 <td>
-                    <ClearableInput bind:value={preOrderInput} on:input={onChanged} />
+                    <ClearableInput bind:value={preOrderInput} on:input={onChanged} placeholder={trees[currentIndex]?.preOrderTraversal()?.join(" ") || ""} />
                     <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B D E C F</ClickToCopy></span>
                 </td>
             </tr>
-            <tr class:used={usedInputs.in}>
+            <tr>
                 <td>
                     <label><b>In</b>order:</label><br>
                 </td>
                 <td>
-                    <ClearableInput bind:value={inOrderInput} on:input={onChanged} />
+                    <ClearableInput bind:value={inOrderInput} on:input={onChanged} placeholder={trees[currentIndex]?.inOrderTraversal()?.join(" ") || ""} />
                     <span class="subnote">e.g. <ClickToCopy>0  1  3  5  7  8  9  9</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
                 </td>
             </tr>
-            <tr class:used={usedInputs.post}>
+            <tr>
                 <td><label><b>Post</b>order:</label></td>
                 <td>
-                    <ClearableInput bind:value={postOrderInput} on:input={onChanged} />
+                    <ClearableInput bind:value={postOrderInput} on:input={onChanged} placeholder={trees[currentIndex]?.postOrderTraversal()?.join(" ") || ""} />
                     <span class="subnote">e.g. <ClickToCopy>1 0 3 8 9 9 7 5</ClickToCopy> or <ClickToCopy>D E B F C A</ClickToCopy></span>
                 </td>
             </tr>
@@ -44,7 +44,7 @@
 
     <div class="output">
         {#if trees.length > 0}
-            <Switcher numberOfOptions={trees.length} let:option={currentIndex}>
+            <Switcher numberOfOptions={trees.length} bind:currentIndex={currentIndex}>
                 <Tree tree={trees[currentIndex]} />
             </Switcher>
         {/if}
@@ -57,27 +57,25 @@
     import ClickToCopy from "../lib/components/ClickToCopy.svelte";
     import ClearableInput from "../lib/components/ClearableInput.svelte";
     import Switcher from "../lib/components/Switcher.svelte";
+    import {arraysContainTheSameElements} from "../lib/utils";
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";
     let postOrderInput: String = "";
 
-    // Which inputs have been used to construct the current tree
-    let usedInputs = {
-        pre: false,
-        in: false,
-        post: false
-    }
-
     let changed = false;
 
     let trees: TreeNode<any>[] = [];
+    let currentIndex = 0;
+
     let error: String;
 
     function parseInput(input: String): any[] {
         const res: any[] = [];
         for(let el of input.trim().split(/\s+/g)) {
-            res.push(el);
+            if (el.length > 0) {
+                res.push(el);
+            }
         }
         return res;
     }
@@ -88,26 +86,35 @@
 
     function onSubmit() {
         changed = false;
+        error = null;
 
-        if (preOrderInput.trim().length > 0 && inOrderInput.trim().length > 0) {
-            usedInputs.pre = usedInputs.in = true;
-            usedInputs.post = false;
-            console.log("Building tree from pre- and inorder");
-            trees = buildTreePreIn(parseInput(preOrderInput), parseInput(inOrderInput));
-            console.log(trees);
-        } else if (inOrderInput.trim().length > 0 && postOrderInput.trim().length > 0) {
-            usedInputs.in = usedInputs.post = true;
-            usedInputs.pre = false;
-            console.log("Building tree from in- and postorder");
-            trees = buildTreeInPost(parseInput(inOrderInput), parseInput(postOrderInput));
-            console.log(trees);
+        const pre = parseInput(preOrderInput);
+        const in_ = parseInput(inOrderInput);
+        const post = parseInput(postOrderInput);
+
+        if (pre.length > 0 && in_.length > 0) {
+            if (arraysContainTheSameElements(pre, in_)) {
+                console.log("Building tree from pre- and inorder");
+                trees = buildTreePreIn(pre, in_);
+                console.log(trees);
+            } else {
+                error = "Pre- and inorder traversals do not contain the same elements.";
+            }
+        } else if (in_.length > 0 && post.length > 0) {
+            if (arraysContainTheSameElements(in_, post)) {
+                console.log("Building tree from in- and postorder");
+                trees = buildTreeInPost(in_, post);
+                console.log(trees);
+            } else {
+                error = "In- and postorder traversals do not contain the same elements."
+            }
         } else {
-            trees = [];
             error = "Please supply the inorder traversal and one of pre- and postorder.";
-            return;
         }
 
-        error = null;
+        if (error != null) {
+            trees = [];
+        }
     }
 </script>
 
