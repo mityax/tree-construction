@@ -37,7 +37,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><button on:click={onSubmit} disabled="{!changed}">Start</button></td>
+                <td colspan="2"><button on:click={onSubmit} disabled="{!changed}">CONSTRUCT TREE</button></td>
             </tr>
         </table>
     </div>
@@ -119,6 +119,8 @@
 </script>
 
 <style lang="sass">
+    @import "../style/constants"
+
     .form-table
       border-collapse: collapse
 
@@ -150,6 +152,9 @@
     .container
       display: flex
 
+      @media(max-width: $MOBILE_BREAKPOINT)
+        flex-direction: column
+
       >*:last-child
         flex-grow: 1
 
@@ -158,8 +163,14 @@
         background: #545454
         color: white
         padding: 25px
-        height: 100vh
+        min-height: 100vh
+        height: 100%
         width: 420px
+
+        @media(max-width: $MOBILE_BREAKPOINT)
+          width: 100%
+          height: unset
+          min-height: unset
 
       .output
         height: 100vh
@@ -167,6 +178,9 @@
         justify-content: center
         padding: 25px
 
-        :global(svg)
-          width: 500px
+        @media(max-width: $MOBILE_BREAKPOINT)
+          width: 100%
+
+        :global(svg), :global(>div)
+          width: 100%
 </style>
