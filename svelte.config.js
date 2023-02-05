@@ -10,7 +10,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: process.env.NODE_ENV === "production" ? "/tree-constructor" : "",
+			base: process.env.NODE_ENV === "production" ? "/tree-construction" : "",
 	    },
 	}
 };
