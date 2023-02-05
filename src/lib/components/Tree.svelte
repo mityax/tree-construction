@@ -1,6 +1,6 @@
 
-<svg viewBox="0 0 {nodes.width + 20} {nodes.height + 20}">
-    <g transform="translate(10, 10)">
+<svg viewBox="0 0 {nodes.width + 40} {nodes.height + 40}">
+    <g transform="translate(20, 20)">
         {#each nodes.nodes as node}
             <circle cx={node.x} cy={node.y} r={nodeSize/2} fill="none" stroke="black" />
             <text x={node.x} y={node.y} dominant-baseline="middle" text-anchor="middle">{ node.content }</text>

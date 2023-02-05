@@ -1,6 +1,6 @@
 <div class="container">
     <div class="form sidebar">
-        <h1>Tree constructor</h1>
+        <h1 style="text-align: center">Tree constructor</h1>
         <table class="form-table">
             <tr>
                 <td>
@@ -43,8 +43,10 @@
     </div>
 
     <div class="output">
-        {#if tree}
-            <Tree tree={tree} />
+        {#if trees.length > 0}
+            <Switcher numberOfOptions={trees.length} let:option={currentIndex}>
+                <Tree tree={trees[currentIndex]} />
+            </Switcher>
         {/if}
     </div>
 </div>
@@ -54,12 +56,13 @@
     import Tree from "../lib/components/Tree.svelte";
     import ClickToCopy from "../lib/components/ClickToCopy.svelte";
     import ClearableInput from "../lib/components/ClearableInput.svelte";
+    import Switcher from "../lib/components/Switcher.svelte";
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";
     let postOrderInput: String = "";
 
-    let tree: TreeNode<any> | null = null;
+    let trees: TreeNode<any>[] = [];
     let error: String;
 
     function parseInput(input: String): any[] {
@@ -73,13 +76,14 @@
     function onSubmit() {
         if (preOrderInput.trim().length > 0 && inOrderInput.trim().length > 0) {
             console.log("Building tree from pre- and inorder");
-            tree = buildTreePreIn(parseInput(preOrderInput), parseInput(inOrderInput));
-            console.log(tree);
+            trees = buildTreePreIn(parseInput(preOrderInput), parseInput(inOrderInput));
+            console.log(trees);
         } else if (inOrderInput.trim().length > 0 && postOrderInput.trim().length > 0) {
             console.log("Building tree from in- and postorder");
-            tree = buildTreeInPost(parseInput(inOrderInput), parseInput(postOrderInput));
-            console.log(tree);
+            trees = buildTreeInPost(parseInput(inOrderInput), parseInput(postOrderInput));
+            console.log(trees);
         } else {
+            trees = [];
             error = "Please supply inorder and one of pre- and postorder.";
             return;
         }
@@ -124,7 +128,7 @@
         height: 100vh
         display: flex
         justify-content: center
-        align-items: center
+        padding: 25px
 
         :global(svg)
           width: 500px
