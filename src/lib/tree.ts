@@ -1,4 +1,3 @@
-import Tree from "./components/Tree.svelte";
 
 export class TreeNode<T> {
     public data: T;
@@ -61,6 +60,12 @@ export function buildTreePreIn<T>(preOrder: T[], inOrder: T[]): TreeNode<T>[] {
 
     const inIndexes = allIndexesOf(inOrder, value);
 
+    if (inIndexes.length === 0) {
+        throw new TreeConstructionError(
+            "Malformed or mismatching traversals – cannot find \"" + value + "\" in " +
+            "the appropriate sequence of the inorder traversal: " + inOrder);
+    }
+
     if (inOrder.length === 1 || preOrder.length === 1) {
         return [new TreeNode<T>(value)];
     }
@@ -91,6 +96,12 @@ export function buildTreeInPost<T>(inOrder: T[], postOrder: T[]): TreeNode<T>[] 
 
     const inIndexes = allIndexesOf(inOrder, value);
 
+    if (inIndexes.length === 0) {
+        throw new TreeConstructionError(
+            "Malformed or mismatching traversals – cannot find \"" + value + "\" in " +
+            "the appropriate sequence of the inorder traversal: " + inOrder);
+    }
+
     if (inOrder.length === 1 || postOrder.length === 1) {
         return [new TreeNode<T>(value)];
     }
@@ -120,4 +131,11 @@ function allIndexesOf<T>(array: T[], value: T): number[] {
         }
     }
     return res;
+}
+
+
+export class TreeConstructionError extends Error {
+    constructor(message: string, options: Record<string, any> = undefined) {
+        super(message, options);
+    }
 }

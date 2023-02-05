@@ -54,7 +54,7 @@
 </div>
 
 <script lang="ts">
-    import {buildTreeInPost, buildTreePreIn, TreeNode} from "../lib/tree";
+    import {buildTreeInPost, buildTreePreIn, TreeConstructionError, TreeNode} from "../lib/tree";
     import Tree from "../lib/components/Tree.svelte";
     import ClickToCopy from "../lib/components/ClickToCopy.svelte";
     import ClearableInput from "../lib/components/ClearableInput.svelte";
@@ -91,28 +91,34 @@
         changed = false;
         error = null;
 
-        const pre = parseInput(preOrderInput);
-        const in_ = parseInput(inOrderInput);
-        const post = parseInput(postOrderInput);
+        try {
+            const pre = parseInput(preOrderInput);
+            const in_ = parseInput(inOrderInput);
+            const post = parseInput(postOrderInput);
 
-        if (pre.length > 0 && in_.length > 0) {
-            if (arraysContainTheSameElements(pre, in_)) {
-                console.log("Building tree from pre- and inorder");
-                trees = buildTreePreIn(pre, in_);
-                console.log(trees);
+            if (pre.length > 0 && in_.length > 0) {
+                if (arraysContainTheSameElements(pre, in_)) {
+                    console.log("Building tree from pre- and inorder");
+                    trees = buildTreePreIn(pre, in_);
+                    console.log(trees);
+                } else {
+                    error = "Pre- and inorder traversals do not contain the same elements.";
+                }
+            } else if (in_.length > 0 && post.length > 0) {
+                if (arraysContainTheSameElements(in_, post)) {
+                    console.log("Building tree from in- and postorder");
+                    trees = buildTreeInPost(in_, post);
+                    console.log(trees);
+                } else {
+                    error = "In- and postorder traversals do not contain the same elements."
+                }
             } else {
-                error = "Pre- and inorder traversals do not contain the same elements.";
+                error = "Please supply the inorder traversal and one of pre- and postorder.";
             }
-        } else if (in_.length > 0 && post.length > 0) {
-            if (arraysContainTheSameElements(in_, post)) {
-                console.log("Building tree from in- and postorder");
-                trees = buildTreeInPost(in_, post);
-                console.log(trees);
-            } else {
-                error = "In- and postorder traversals do not contain the same elements."
+        } catch (e) {
+            if (e instanceof TreeConstructionError) {
+                error = e.message;
             }
-        } else {
-            error = "Please supply the inorder traversal and one of pre- and postorder.";
         }
 
         if (error != null) {
