@@ -46,6 +46,8 @@
         {#if trees.length > 0}
             <Switcher numberOfOptions={trees.length} bind:currentIndex={currentIndex}>
                 <Tree tree={trees[currentIndex]} />
+
+                <!--<AVLAnalyzer tree={trees[currentIndex]} />-->
             </Switcher>
         {/if}
     </div>
@@ -58,6 +60,7 @@
     import ClearableInput from "../lib/components/ClearableInput.svelte";
     import Switcher from "../lib/components/Switcher.svelte";
     import {arraysContainTheSameElements} from "../lib/utils";
+    import AVLAnalyzer from "../lib/components/AVLAnalyzer.svelte";
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";
