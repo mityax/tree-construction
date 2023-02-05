@@ -1,6 +1,6 @@
 
 <div class="clearable-input">
-    <input type="text" bind:value={value} {...inputProps}/>
+    <input type="text" bind:value={value} on:input {...inputProps}/>
     <div class="clear-button" class:hidden={value.trim().length === 0} on:click={clear}>
         <Icon name="x"/>
     </div>
@@ -27,7 +27,7 @@
     display: flex
     align-items: center
     background: white
-    border-radius: 2px
+    border-radius: 3px
 
     input
       background: transparent

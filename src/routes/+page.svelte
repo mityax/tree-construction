@@ -2,28 +2,28 @@
     <div class="form sidebar">
         <h1 style="text-align: center">Tree constructor</h1>
         <table class="form-table">
-            <tr>
+            <tr class:used={usedInputs.pre}>
                 <td>
                     <label><b>Pre</b>order:</label><br>
                 </td>
                 <td>
-                    <ClearableInput bind:value={preOrderInput} />
+                    <ClearableInput bind:value={preOrderInput} on:input={onChanged} />
                     <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B D E C F</ClickToCopy></span>
                 </td>
             </tr>
-            <tr>
+            <tr class:used={usedInputs.in}>
                 <td>
                     <label><b>In</b>order:</label><br>
                 </td>
                 <td>
-                    <ClearableInput bind:value={inOrderInput} />
+                    <ClearableInput bind:value={inOrderInput} on:input={onChanged} />
                     <span class="subnote">e.g. <ClickToCopy>0  1  3  5  7  8  9  9</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
                 </td>
             </tr>
-            <tr>
+            <tr class:used={usedInputs.post}>
                 <td><label><b>Post</b>order:</label></td>
                 <td>
-                    <ClearableInput bind:value={postOrderInput} />
+                    <ClearableInput bind:value={postOrderInput} on:input={onChanged} />
                     <span class="subnote">e.g. <ClickToCopy>1 0 3 8 9 9 7 5</ClickToCopy> or <ClickToCopy>D E B F C A</ClickToCopy></span>
                 </td>
             </tr>
@@ -37,7 +37,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><button on:click={onSubmit}>Start</button></td>
+                <td colspan="2"><button on:click={onSubmit} disabled="{!changed}">Start</button></td>
             </tr>
         </table>
     </div>
@@ -62,6 +62,15 @@
     let inOrderInput: String = "";
     let postOrderInput: String = "";
 
+    // Which inputs have been used to construct the current tree
+    let usedInputs = {
+        pre: false,
+        in: false,
+        post: false
+    }
+
+    let changed = false;
+
     let trees: TreeNode<any>[] = [];
     let error: String;
 
@@ -73,18 +82,28 @@
         return res;
     }
 
+    function onChanged() {
+        changed = true;
+    }
+
     function onSubmit() {
+        changed = false;
+
         if (preOrderInput.trim().length > 0 && inOrderInput.trim().length > 0) {
+            usedInputs.pre = usedInputs.in = true;
+            usedInputs.post = false;
             console.log("Building tree from pre- and inorder");
             trees = buildTreePreIn(parseInput(preOrderInput), parseInput(inOrderInput));
             console.log(trees);
         } else if (inOrderInput.trim().length > 0 && postOrderInput.trim().length > 0) {
+            usedInputs.in = usedInputs.post = true;
+            usedInputs.pre = false;
             console.log("Building tree from in- and postorder");
             trees = buildTreeInPost(parseInput(inOrderInput), parseInput(postOrderInput));
             console.log(trees);
         } else {
             trees = [];
-            error = "Please supply inorder and one of pre- and postorder.";
+            error = "Please supply the inorder traversal and one of pre- and postorder.";
             return;
         }
 
@@ -94,6 +113,8 @@
 
 <style lang="sass">
     .form-table
+      border-collapse: collapse
+
       td
         padding: 1rem
 
@@ -111,6 +132,14 @@
       font-size: 0.6em
       opacity: 0.7
 
+    .error
+      background: transparentize(red, 0.9)
+      border: red 1px solid
+      padding: 15px
+      border-radius: 5px
+      max-width: 100%
+      text-align: left
+
     .container
       display: flex
 
@@ -123,6 +152,7 @@
         color: white
         padding: 25px
         height: 100vh
+        width: 420px
 
       .output
         height: 100vh
