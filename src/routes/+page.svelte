@@ -29,10 +29,17 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    {#if warning}
+                        <div class="warning">
+                            <b>Warning:</b>
+                            { warning }
+                        </div>
+                    {/if}
                     {#if error}
-                    <div class="error">
-                        { error }
-                    </div>
+                        <div class="error">
+                            <b>Error:</b>
+                            { error }
+                        </div>
                     {/if}
                 </td>
             </tr>
@@ -45,6 +52,21 @@
     <div class="output">
         {#if trees.length > 0}
             <Switcher numberOfOptions={trees.length} bind:currentIndex={currentIndex}>
+                {#if pre.length !== 0 && !arraysEqual(trees[currentIndex].preOrderTraversal(), pre)}
+                    <div class="warning">
+                        <b>Warning:</b> This tree has been generated even though it's preorder traversal does
+                        not match the one you entered. This is likely a bug within this tool. Consider this
+                        tree carefully!
+                    </div>
+                {/if}
+                {#if in_.length !== 0 && !arraysEqual(trees[currentIndex].inOrderTraversal(), in_)}
+                    <div class="warning">
+                        <b>Warning:</b> This tree has been generated even though it's inorder traversal does
+                        not match the one you entered. This is likely a bug within this tool. Consider this
+                        tree carefully!
+                    </div>
+                {/if}
+
                 <Tree tree={trees[currentIndex]} />
 
                 <!--<AVLAnalyzer tree={trees[currentIndex]} />-->
@@ -59,19 +81,23 @@
     import ClickToCopy from "../lib/components/ClickToCopy.svelte";
     import ClearableInput from "../lib/components/ClearableInput.svelte";
     import Switcher from "../lib/components/Switcher.svelte";
-    import {arraysContainTheSameElements} from "../lib/utils";
-    import AVLAnalyzer from "../lib/components/AVLAnalyzer.svelte";
+    import {arraysContainTheSameElements, arraysEqual} from "../lib/utils";
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";
     let postOrderInput: String = "";
+
+    let pre: string[];
+    let in_: string[];
+    let post: string[];
 
     let changed = false;
 
     let trees: TreeNode<any>[] = [];
     let currentIndex = 0;
 
-    let error: String;
+    let warning: string | null;
+    let error: string | null;
 
     function parseInput(input: String): any[] {
         const res: any[] = [];
@@ -89,18 +115,30 @@
 
     function onSubmit() {
         changed = false;
+        warning = null;
         error = null;
 
         try {
-            const pre = parseInput(preOrderInput);
-            const in_ = parseInput(inOrderInput);
-            const post = parseInput(postOrderInput);
+            pre = parseInput(preOrderInput);
+            in_ = parseInput(inOrderInput);
+            post = parseInput(postOrderInput);
 
             if (pre.length > 0 && in_.length > 0) {
                 if (arraysContainTheSameElements(pre, in_)) {
                     console.log("Building tree from pre- and inorder");
                     trees = buildTreePreIn(pre, in_);
                     console.log(trees);
+
+                    if (post.length > 0) {
+                        const t = trees.filter((t) => arraysEqual(t.postOrderTraversal(), post));
+                        if (t.length === 0) {
+                            warning = "The postorder traversal you entered does not match with the given pre- &" +
+                                " inorder traversals.\nThe tree has been constructed using pre- & " +
+                                "inorder only.";
+                        } else {
+                            trees = t;
+                        }
+                    }
                 } else {
                     error = "Pre- and inorder traversals do not contain the same elements.";
                 }
@@ -153,6 +191,14 @@
     .error
       background: transparentize(red, 0.9)
       border: red 1px solid
+      padding: 15px
+      border-radius: 5px
+      max-width: 100%
+      text-align: left
+
+    .warning
+      background: transparentize(darkorange, 0.9)
+      border: darkorange 1px solid
       padding: 15px
       border-radius: 5px
       max-width: 100%
