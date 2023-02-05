@@ -1,0 +1,130 @@
+<div class="container">
+    <div class="form sidebar">
+        <h1>Tree constructor</h1>
+        <table class="form-table">
+            <tr>
+                <td>
+                    <label>Preorder:</label><br>
+                </td>
+                <td>
+                    <input type="text" bind:value={preOrderInput} /><br>
+                    <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B C D E F</ClickToCopy></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Inorder:</label><br>
+                </td>
+                <td>
+                    <input type="text" bind:value={inOrderInput} /><br>
+                    <span class="subnote">e.g. <ClickToCopy>0  1  3  5  7  8  9  9</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Postorder:</label></td>
+                <td>
+                    <input type="text" bind:value={postOrderInput} /><br>
+                    <span class="subnote">e.g. <ClickToCopy>1 0 3 8 9 9 7 5</ClickToCopy> or <ClickToCopy>D B E A F C</ClickToCopy></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {#if error}
+                    <div class="error">
+                        { error }
+                    </div>
+                    {/if}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><button on:click={onSubmit}>Start</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="output">
+        {#if tree}
+            <Tree tree={tree} />
+        {/if}
+    </div>
+</div>
+
+<script lang="ts">
+    import {buildTreeInPost, buildTreePreIn, TreeNode} from "../lib/tree";
+    import Tree from "../lib/components/Tree.svelte";
+    import ClickToCopy from "../lib/components/ClickToCopy.svelte";
+
+    let preOrderInput: String = "";
+    let inOrderInput: String = "";
+    let postOrderInput: String = "";
+
+    let tree: TreeNode<any> | null = null;
+    let error: String;
+
+    function parseInput(input: String): any[] {
+        const res: any[] = [];
+        for(let el of input.trim().split(/\s+/g)) {
+            res.push(el);
+        }
+        return res;
+    }
+
+    function onSubmit() {
+        if (preOrderInput.trim().length > 0 && inOrderInput.trim().length > 0) {
+            console.log("Building tree from pre- and inorder");
+            tree = buildTreePreIn(parseInput(preOrderInput), parseInput(inOrderInput));
+            console.log(tree);
+        } else if (inOrderInput.trim().length > 0 && postOrderInput.trim().length > 0) {
+            console.log("Building tree from in- and postorder");
+            tree = buildTreeInPost(parseInput(inOrderInput), parseInput(postOrderInput));
+            console.log(tree);
+        } else {
+            error = "Please supply inorder and one of pre- and postorder.";
+            return;
+        }
+
+        error = null;
+    }
+</script>
+
+<style lang="sass">
+    .form-table
+      td
+        padding: 1rem
+
+        &:first-child
+          text-align: right
+
+      button
+        width: 100%
+        padding: 15px
+        text-transform: uppercase
+        letter-spacing: 1px
+        font-size: 1em
+
+    .subnote
+      font-size: 0.6em
+      opacity: 0.7
+
+    .container
+      display: flex
+
+      >*:last-child
+        flex-grow: 1
+
+      .sidebar
+        box-sizing: border-box
+        background: #545454
+        color: white
+        padding: 25px
+        height: 100vh
+
+      .output
+        height: 100vh
+        display: flex
+        justify-content: center
+        align-items: center
+
+        :global(svg)
+          width: 500px
+</style>
