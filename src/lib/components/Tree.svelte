@@ -1,5 +1,5 @@
 
-<svg viewBox="0 0 {nodes.width + 40} {nodes.height + 40}">
+<svg viewBox="0 0 {nodes.width + 40} {nodes.height + 40}" preserveAspectRatio="xMidYMid meet">
     <g transform="translate(20, 20)">
         {#each nodes.nodes as node}
             <circle cx={node.x} cy={node.y} r={nodeSize/2} fill="none" stroke="black" />
