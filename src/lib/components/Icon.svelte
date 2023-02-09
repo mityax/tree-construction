@@ -19,6 +19,7 @@
     <svg
             {...icon.attrs}
             style="width: {width}; height: {height}; transform: rotate({rotation}deg);"
+            on:click
     >
         <g>
             {@html icon.contents}

@@ -7,7 +7,7 @@
                     <label><b>Pre</b>order:</label><br>
                 </td>
                 <td>
-                    <ClearableInput bind:value={preOrderInput} on:input={onChanged} placeholder={trees[currentIndex]?.preOrderTraversal()?.join(" ") || ""} />
+                    <ClearableInput bind:this={preOrderInputElement} bind:value={preOrderInput} on:input={onChanged} placeholder={trees[currentIndex]?.preOrderTraversal()?.join(" ") || ""} />
                     <span class="subnote">e.g. <ClickToCopy>5  3  0  1  7  9  8  9</ClickToCopy> or <ClickToCopy>A B D E C F</ClickToCopy></span>
                 </td>
             </tr>
@@ -49,29 +49,39 @@
         </table>
     </div>
 
-    <div class="output">
-        {#if trees.length > 0}
-            <Switcher numberOfOptions={trees.length} bind:currentIndex={currentIndex}>
-                {#if pre.length !== 0 && !arraysEqual(trees[currentIndex].preOrderTraversal(), pre)}
-                    <div class="warning">
-                        <b>Warning:</b> This tree has been generated even though it's preorder traversal does
-                        not match the one you entered. This is likely a bug within this tool. Consider this
-                        tree carefully!
-                    </div>
-                {/if}
-                {#if in_.length !== 0 && !arraysEqual(trees[currentIndex].inOrderTraversal(), in_)}
-                    <div class="warning">
-                        <b>Warning:</b> This tree has been generated even though it's inorder traversal does
-                        not match the one you entered. This is likely a bug within this tool. Consider this
-                        tree carefully!
-                    </div>
-                {/if}
+    <div class="main">
+        <div class="output">
+            {#if trees.length > 0}
+                <Switcher numberOfOptions={trees.length} bind:currentIndex={currentIndex}>
+                    {#if pre.length !== 0 && !arraysEqual(trees[currentIndex].preOrderTraversal(), pre)}
+                        <div class="warning">
+                            <b>Warning:</b> This tree has been generated even though it's preorder traversal does
+                            not match the one you entered. This is likely a bug within this tool. Consider this
+                            tree carefully!
+                        </div>
+                    {/if}
+                    {#if in_.length !== 0 && !arraysEqual(trees[currentIndex].inOrderTraversal(), in_)}
+                        <div class="warning">
+                            <b>Warning:</b> This tree has been generated even though it's inorder traversal does
+                            not match the one you entered. This is likely a bug within this tool. Consider this
+                            tree carefully!
+                        </div>
+                    {/if}
 
-                <Tree tree={trees[currentIndex]} />
+                    <Tree tree={trees[currentIndex]} />
 
-                <!--<AVLAnalyzer tree={trees[currentIndex]} />-->
-            </Switcher>
-        {/if}
+                    <!--<AVLAnalyzer tree={trees[currentIndex]} />-->
+                </Switcher>
+            {:else}
+                <div class="empty-state">
+                    <p><Icon name="plus-circle" width="3em" height="3em" strokeWidth="1px" on:click={focusInput} /></p>
+                    <p>Nothing here yet.</p>
+                    <small>Input your tree traversals or use the<br> examples to get started.</small>
+                </div>
+            {/if}
+        </div>
+
+        <Footer />
     </div>
 </div>
 
@@ -82,6 +92,10 @@
     import ClearableInput from "../../lib/components/ClearableInput.svelte";
     import Switcher from "../../lib/components/Switcher.svelte";
     import {arraysContainTheSameElements, arraysEqual} from "../../lib/utils";
+    import Footer from '../../lib/components/Footer.svelte';
+    import Icon from '../../lib/components/Icon.svelte';
+
+    let preOrderInputElement;
 
     let preOrderInput: String = "";
     let inOrderInput: String = "";
@@ -163,6 +177,11 @@
             trees = [];
         }
     }
+
+    function focusInput() {
+        console.log(preOrderInputElement)
+        preOrderInputElement.focus();
+    }
 </script>
 
 <style lang="sass">
@@ -193,16 +212,16 @@
       border: red 1px solid
       padding: 15px
       border-radius: 5px
-      max-width: 100%
       text-align: left
+      max-width: 320px
 
     .warning
       background: transparentize(darkorange, 0.9)
       border: darkorange 1px solid
       padding: 15px
       border-radius: 5px
-      max-width: 100%
       text-align: left
+      max-width: 320px
 
     .container
       display: flex
@@ -228,16 +247,36 @@
           height: unset
           min-height: unset
 
+    .main
+      height: 100vh
+      display: flex
+      flex-direction: column
+
+      .empty-state
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        color: #a1a1a1
+        text-align: center
+
       .output
-        box-sizing: border-box
-        height: 100vh
+        flex-grow: 1
+        flex-shrink: 1
+        max-height: calc(100% - 40px)
         display: flex
         justify-content: center
         padding: 25px
+        box-sizing: border-box
 
         @media(max-width: $MOBILE_BREAKPOINT)
+          height: unset
           width: 100%
 
         :global(svg), :global(>div)
+          height: 100%
           width: 100%
+
+          @media(max-width: $MOBILE_BREAKPOINT)
+            height: unset
 </style>

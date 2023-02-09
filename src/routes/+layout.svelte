@@ -38,5 +38,7 @@
     .main
       flex-grow: 1
       height: 100%
-      overflow: auto
+
+      @media(min-width: $MOBILE_BREAKPOINT)
+        overflow: auto
 </style>
