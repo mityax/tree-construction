@@ -73,11 +73,9 @@
                     <!--<AVLAnalyzer tree={trees[currentIndex]} />-->
                 </Switcher>
             {:else}
-                <div class="empty-state">
-                    <p><Icon name="plus-circle" width="3em" height="3em" strokeWidth="1px" on:click={focusInput} /></p>
-                    <p>Nothing here yet.</p>
-                    <small>Input your tree traversals or use the<br> examples to get started.</small>
-                </div>
+                <EmptyState
+                        on:click={focusInput}
+                        message="Input your tree traversals or use the<br> examples to get started." />
             {/if}
         </div>
 
@@ -95,6 +93,7 @@
     import Footer from '../../lib/components/Footer.svelte';
     import Icon from '../../lib/components/Icon.svelte';
     import ContentWithSidebar from "../../lib/components/ContentWithSidebar.svelte";
+    import EmptyState from "../../lib/components/EmptyState.svelte";
 
     let preOrderInputElement;
 
@@ -248,14 +247,6 @@
       height: 100vh
       display: flex
       flex-direction: column
-
-      .empty-state
-        display: flex
-        flex-direction: column
-        align-items: center
-        justify-content: center
-        color: #a1a1a1
-        text-align: center
 
       .output
         flex-grow: 1
