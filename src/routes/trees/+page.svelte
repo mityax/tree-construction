@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="form sidebar">
+<ContentWithSidebar>
+    <div class="form" slot="sidebar">
         <h1 style="text-align: center">Tree constructor</h1>
         <table class="form-table">
             <tr>
@@ -83,7 +83,7 @@
 
         <Footer />
     </div>
-</div>
+</ContentWithSidebar>
 
 <script lang="ts">
     import {buildTreeInPost, buildTreePreIn, TreeConstructionError, TreeNode} from "../../lib/tree";
@@ -94,6 +94,7 @@
     import {arraysContainTheSameElements, arraysEqual} from "../../lib/utils";
     import Footer from '../../lib/components/Footer.svelte';
     import Icon from '../../lib/components/Icon.svelte';
+    import ContentWithSidebar from "../../lib/components/ContentWithSidebar.svelte";
 
     let preOrderInputElement;
 

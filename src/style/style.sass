@@ -18,6 +18,22 @@ button
   justify-content: center
   cursor: pointer
 
+  &.button-submit
+    width: 100%
+    text-transform: uppercase
+    letter-spacing: 2px
+    font-size: 1em
+    padding: 15px
+
   &[disabled]
     background: #cbcbcb
     cursor: default
+
+
+$spacer-sizes: ("s": 10px, "m": 20px, "l": 40px)
+
+@each $name, $size in $spacer-sizes
+  .spacer-#{$name}
+    width: $size * 2
+    height: $size
+    line-height: 0

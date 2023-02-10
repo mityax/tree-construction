@@ -4,6 +4,11 @@
         <Icon name="share-2" />
         <span class="title">Trees</span>
     </a>
+    <div class="spacer-m"> </div>
+    <!--<a href="{base}/sorting/" class="nav-button">
+        <Icon name="hash" />
+        <span class="title">Sorting</span>
+    </a>-->
 </div>
 
 <script lang="ts">
@@ -40,10 +45,14 @@ import {base} from "$app/paths";
       color: white
       display: flex
       align-items: center
-      line-height: 1
+      box-sizing: border-box
+      width: 100%
 
       @media (max-width: $MOBILE_BREAKPOINT)
         flex-direction: column
+
+      &+&
+        margin-bottom: 15px
 
       .title
         max-width: 0
@@ -51,6 +60,9 @@ import {base} from "$app/paths";
         overflow: hidden
         display: inline-block
         padding-left: 0
+        text-transform: uppercase
+        letter-spacing: 1px
+        font-size: 80%
 
         @media (max-width: $MOBILE_BREAKPOINT)
           max-width: unset

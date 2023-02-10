@@ -2,6 +2,9 @@
     <div class="nav">
         <Nav />
     </div>
+    <div class="sidebar">
+        <slot name="sidebar" />
+    </div>
     <div class="main">
         <slot />
     </div>
@@ -34,6 +37,10 @@
 
       @media (max-width: $MOBILE_BREAKPOINT)
         min-height: unset
+
+    .sidebar
+      flex-grow: 0
+      background: $SIDEBAR_BACKGROUND
 
     .main
       flex-grow: 1
