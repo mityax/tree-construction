@@ -5,10 +5,10 @@
         <span class="title">Trees</span>
     </a>
     <div class="spacer-m"> </div>
-    <!--<a href="{base}/sorting/" class="nav-button">
+    <a href="{base}/sorting/" class="nav-button">
         <Icon name="hash" />
         <span class="title">Sorting</span>
-    </a>-->
+    </a>
 </div>
 
 <script lang="ts">
