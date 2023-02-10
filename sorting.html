@@ -7,19 +7,19 @@
 		<meta http-equiv="content-security-policy" content="">
 		<link href="/tree-construction/_app/immutable/assets/_layout-71498c97.css" rel="stylesheet">
 		<link href="/tree-construction/_app/immutable/assets/Icon-a68a1b1a.css" rel="stylesheet">
-		<link href="/tree-construction/_app/immutable/assets/_layout-009cf7f6.css" rel="stylesheet">
-		<link href="/tree-construction/_app/immutable/assets/_page-6a6390aa.css" rel="stylesheet">
-		<link href="/tree-construction/_app/immutable/assets/ContentWithSidebar-02f7a2fe.css" rel="stylesheet">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/start-be21006c.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/index-ae5c3a39.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/singletons-8a340efb.js">
+		<link href="/tree-construction/_app/immutable/assets/_layout-3257c30b.css" rel="stylesheet">
+		<link href="/tree-construction/_app/immutable/assets/_page-fb5f7bc8.css" rel="stylesheet">
+		<link href="/tree-construction/_app/immutable/assets/ClickToCopy-4b747b4c.css" rel="stylesheet">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/start-5a944978.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/index-35f27d8e.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/singletons-e1606306.js">
 		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/shared-23917130.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/components/pages/_layout.svelte-11098ad3.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/Icon-ba6df6fd.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/modules/pages/_layout.ts-c8041831.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/_layout-902703f9.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/components/pages/sorting/_page.svelte-09ee21bf.js">
-		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/ContentWithSidebar-5e0c6402.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/components/pages/_layout.svelte-6914d19b.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/Icon-7f077144.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/modules/pages/_layout.ts-68dd7084.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/_layout-5010577b.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/components/pages/sorting/_page.svelte-bb00fbfb.js">
+		<link rel="modulepreload" href="/tree-construction/_app/immutable/chunks/ClickToCopy-0b2642ec.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">
@@ -28,28 +28,36 @@
 <div class="layout svelte-uvnp42"><div class="nav svelte-uvnp42"><div class="nav svelte-pikedr"><a href="/tree-construction/trees/" class="nav-button svelte-pikedr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2 svelte-1vnrenl" style="width: 1em; height: 1em; transform: rotate(0deg);"><g><!-- HTML_TAG_START --><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line><!-- HTML_TAG_END --></g></svg>
         <span class="title svelte-pikedr">Trees</span></a>
     <div class="spacer-m"></div>
-    
+    <a href="/tree-construction/sorting/" class="nav-button svelte-pikedr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash svelte-1vnrenl" style="width: 1em; height: 1em; transform: rotate(0deg);"><g><!-- HTML_TAG_START --><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line><!-- HTML_TAG_END --></g></svg>
+        <span class="title svelte-pikedr">Sorting</span></a>
 </div></div>
     <div class="sidebar svelte-uvnp42"></div>
-    <div class="main svelte-uvnp42"><div class="container svelte-61go99"><div class="sidebar svelte-61go99"><div class="sidebar svelte-3qw64w" slot="sidebar"><label>Items to sort:</label>
-        <div class="spacer-m"></div>
-        <textarea placeholder="2 3 4 1 0 2 1 8 11 9" class="svelte-3qw64w"></textarea>
+    <div class="main svelte-uvnp42"><div class="container svelte-61go99"><div class="sidebar svelte-61go99"><div class="sidebar svelte-kwbuyb" slot="sidebar"><div class="flex-row"><label>Items to sort:</label>
+            <div class="spacer-expand"></div>
+            <label>Sep.:</label>
+            <div class="spacer-m"></div>
+            <input type="text" placeholder="Any whitespace" class="secondary" style="width: 7em" value=""></div>
+        <div class="spacer-s"></div>
+        <textarea placeholder="2 3 4 1 0 2 1 8 11 9" class="svelte-kwbuyb"></textarea>
+        <div class="spacer-s"></div>
+        <div class="subnote">e.g. <code class="svelte-15zpmxa"><code>85 70 36 75 53 73 1 4 94 29</code>
+</code></div>
         <div class="spacer-l"></div>
         <button class="submit-button button-submit">SORT</button></div></div>
 
-    <div class="main svelte-61go99"><div></div></div>
+    <div class="main svelte-61go99"><div class="output flex-col flex-cross-center"></div></div>
 </div></div>
 </div>
 
 
-		<script type="module" data-sveltekit-hydrate="t39usc">
-			import { start } from "/tree-construction/_app/immutable/start-be21006c.js";
+		<script type="module" data-sveltekit-hydrate="14lde5i">
+			import { start } from "/tree-construction/_app/immutable/start-5a944978.js";
 
 			start({
 				env: {},
 				paths: {"assets":"/tree-construction","base":"/tree-construction"},
-				target: document.querySelector('[data-sveltekit-hydrate="t39usc"]').parentNode,
-				version: "1676020489655",
+				target: document.querySelector('[data-sveltekit-hydrate="14lde5i"]').parentNode,
+				version: "1676057678305",
 				hydrate: {
 					node_ids: [0, 3],
 					data: [null,null],
