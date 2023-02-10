@@ -204,10 +204,6 @@
         letter-spacing: 1px
         font-size: 1em
 
-    .subnote
-      font-size: 0.6em
-      opacity: 0.7
-
     .error
       background: transparentize(red, 0.9)
       border: red 1px solid

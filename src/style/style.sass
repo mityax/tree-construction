@@ -1,10 +1,21 @@
+@import "constants"
 
 body
   font-family: Inter, "Source Sans Pro", sans-serif
   margin: 0
 
-input[type=text]
+input[type=text], textarea
   padding: 7px 5px
+  border: none
+  outline: none
+  border-radius: 3px
+
+  &.secondary
+    background: rgb(155, 155, 155)
+    transition: background-color 0.3s
+
+    &:hover, &:focus
+      background: white
 
 button
   background: teal
@@ -34,6 +45,36 @@ $spacer-sizes: ("s": 10px, "m": 20px, "l": 40px)
 
 @each $name, $size in $spacer-sizes
   .spacer-#{$name}
-    width: $size * 2
+    width: $size
     height: $size
     line-height: 0
+    flex-grow: 0
+
+.spacer-expand
+  flex-grow: 1
+
+@mixin flex
+  display: flex
+
+.flex-row
+  @include flex
+  align-items: center
+
+.flex-col
+  @include flex
+  flex-direction: column
+
+.flex-auto
+  @include flex
+  align-items: center
+
+  @media(max-width: $MOBILE_BREAKPOINT)
+    flex-direction: column
+    align-items: unset
+
+.flex-cross-center
+  justify-content: center
+
+.subnote
+  font-size: 0.6em
+  opacity: 0.7
