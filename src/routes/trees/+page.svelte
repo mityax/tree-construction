@@ -251,7 +251,7 @@
       .output
         flex-grow: 1
         flex-shrink: 1
-        max-height: calc(100% - 40px)
+        max-height: calc(100% - 50px)
         display: flex
         justify-content: center
         padding: 25px

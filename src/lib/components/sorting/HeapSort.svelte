@@ -13,13 +13,14 @@
     export let items: any[];
 
     let sorted: any[] = [];
-    let steps: {items: any[], changedIndexes: number[], description: string}[];
+    let steps: {items: any[], changedIndexes: number[], highlightedIndexes: number[], description: string}[];
 
     $: {
         steps = [];
-        sorted = heapSort(items, (it, changedIndexes, description) => steps.push({
+        sorted = heapSort(items, (it, changedIndexes, highlightedIndexes, description) => steps.push({
             items: it,
             changedIndexes,
+            highlightedIndexes,
             description
         }));
     }

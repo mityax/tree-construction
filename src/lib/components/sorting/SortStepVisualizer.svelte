@@ -1,10 +1,14 @@
 
 <table class="sort-steps">
     {#each steps as step, stepIndex}
-        <tr>
+        <tr class:nothing-changed-row={step.changedIndexes.length === 0}>
             <td class="step-index">({ stepIndex+1 })</td>
             {#each step.items as item, i}
-                <td class:step-bold={step.changedIndexes.indexOf(i) !== -1}>{ item }</td>
+                <td
+                    class:step-changed={step.changedIndexes.indexOf(i) !== -1}
+                    class:step-highlighted={step.highlightedIndexes.indexOf(i) !== -1}>
+                    { item }
+                </td>
             {/each}
             <td class:step-empty={step.description === steps[stepIndex - 1]?.description}>
                 { step.description === steps[stepIndex - 1]?.description ? '"' : step.description }
@@ -17,6 +21,7 @@
     export let steps: {
         items: any[],
         changedIndexes: number[],
+        highlightedIndexes: number[],
         description: string
     }[] = [];
 </script>
@@ -33,12 +38,18 @@
       .step-index
         opacity: 0.5
 
-      .step-bold
+      .step-changed
         font-weight: bold
         color: red
+
+      .step-highlighted
+        font-weight: bold
 
       .step-empty
         text-align: center
         opacity: 0.5
         font-weight: bold
+
+      .nothing-changed-row
+        opacity: 0.3
 </style>

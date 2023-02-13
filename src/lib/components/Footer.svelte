@@ -7,8 +7,11 @@
     footer
       display: flex
       justify-content: center
+      align-items: center
       width: 100%
+      box-sizing: border-box
       font-size: 80%
+      padding: 15px
 
       a
         color: grey

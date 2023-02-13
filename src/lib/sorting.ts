@@ -1,7 +1,7 @@
 import type {RecursionObserver} from "./recursion_observer";
 import {RecursionNode} from "./recursion_observer";
 
-export type OnStepCallback<T> = (items: T[], changedIndexes: number[], description: string) => void;
+export type OnStepCallback<T> = (items: T[], changedIndexes: number[], highlightedIndexes: number[], description: string) => void;
 
 
 export function selectionSort<T>(items: T[], onChanged: OnStepCallback<T> | undefined = undefined): T[] {
@@ -18,9 +18,9 @@ export function selectionSort<T>(items: T[], onChanged: OnStepCallback<T> | unde
 
         if (minIndex != i) {
             swap(items, i, minIndex);
-            onChanged?.call(this, [...items], [i, minIndex], "Swapped items to move minimum in unsorted partition to the end of the sorted partition.");
+            onChanged?.call(this, [...items], [i, minIndex], [], "Swapped items to move minimum in unsorted partition to the end of the sorted partition.");
         } else {
-            onChanged?.call(this, [...items], [], "Changed nothing because minimum is already at the beginning of the unsorted partition.");
+            onChanged?.call(this, [...items], [], [i], "Changed nothing because minimum is already at the beginning of the unsorted partition.");
         }
     }
 
@@ -36,8 +36,10 @@ export function bubbleSort<T>(items: T[], onChanged: OnStepCallback<T> | undefin
         for (let j = 0; j < i - 1; j++) {
             if (items[j] > items[j + 1]) {
                 swap(items, j, j + 1);
-                onChanged?.call(this, [...items], [j, j + 1], "Swapped items")
+                onChanged?.call(this, [...items], [j, j + 1], [], "Swapped items")
                 hasSwapped = true;
+            } else {
+                onChanged?.call(this, [...items], [], [j, j+1], "Changed nothing because there is no misposition at the current index.");
             }
         }
 
@@ -73,6 +75,7 @@ export function insertionSort<T>(items: T[], onChanged: OnStepCallback<T> | unde
             this,
             [...items],
             changedIndexes,
+            [j+1],
             changedIndexes.length > 0
                 ? "Shifted " + (changedIndexes.length - 1) + " items to the right to insert \"" + items[j+1] + "\" before them."
                 : "Changed nothing because \"" + current + "\" is already at the right place."
@@ -93,16 +96,20 @@ export function shakerSort<T>(items: T[], onChanged: OnStepCallback<T> | undefin
         for (let i = start; i < end; i++) {
             if (items[i] > items[i+1]) {
                 swap(items, i, i+1);
-                onChanged?.call(this, [...items], [i, i+1], "Swapped items (forward run)");
+                onChanged?.call(this, [...items], [i, i+1], [], "Swapped items (forward run)");
                 hasChanged = true;
+            } else {
+                onChanged?.call(this, [...items], [], [i, i+1], "Changed nothing (no swap necessary)");
             }
         }
 
         for (let i = end - 1; i >= 0; i--) {
             if (items[i] > items[i+1]) {
                 swap(items, i, i+1);
-                onChanged?.call(this, [...items], [i, i+1], "Swapped items (backward run)");
+                onChanged?.call(this, [...items], [i, i+1], [], "Swapped items (backward run)");
                 hasChanged = true;
+            } else {
+                onChanged?.call(this, [...items], [], [i, i+1], "Changed nothing (no swap necessary)");
             }
         }
 
@@ -119,8 +126,10 @@ export function gnomeSort<T>(items: T[], onChanged: OnStepCallback<T> | undefine
     for (let i = 0; i < items.length - 1; i++) {
         if (items[i] > items[i+1]) {
             swap(items, i, i+1);
-            onChanged?.call(this, [...items], [i, i+1], "Swapped items");
+            onChanged?.call(this, [...items], [i, i+1], [], "Swapped items");
             i -= 2;
+        } else {
+            onChanged?.call(this, [...items], [], [i, i+1], "Changed nothing because there was no misposition.");
         }
     }
 
@@ -140,7 +149,7 @@ export function heapSort<T>(items: T[], onChanged: OnStepCallback<T> | undefined
     for (let i = n - 1; i >= 0; i--) {
         // Move current root to end
         swap(items, 0, i);
-        onChanged?.call(this, [...items], [0, i], "Moved current root to the end (swapped items)");
+        onChanged?.call(this, [...items], [0, i], [], "Moved current root to the end (swapped items)");
 
         // call max heapify on the reduced heap
         heapify(items, i, 0);
@@ -166,7 +175,7 @@ export function heapSort<T>(items: T[], onChanged: OnStepCallback<T> | undefined
         // If largest is not root
         if (largest !== i) {
             swap(items, i, largest);
-            onChanged?.call(this, [...items], [0, i], "Swapped items (within `heapify`)");
+            onChanged?.call(this, [...items], [0, i], [], "Swapped items (within `heapify`)");
 
             // Recursively heapify the affected subtree
             heapify(items, n, largest);

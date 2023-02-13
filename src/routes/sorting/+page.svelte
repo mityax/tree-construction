@@ -106,7 +106,7 @@
       overflow: auto
 
     .output
-      min-height: calc(100% - 40px)
+      min-height: calc(100% - 50px)
 
     .output-center
       justify-content: center
