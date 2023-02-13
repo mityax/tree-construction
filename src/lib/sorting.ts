@@ -90,18 +90,18 @@ export function shakerSort<T>(items: T[], onChanged: OnStepCallback<T> | undefin
     while (start != end && hasChanged) {
         hasChanged = false;
 
-        for (let i = start; i < end-1; i++) {
+        for (let i = start; i < end; i++) {
             if (items[i] > items[i+1]) {
                 swap(items, i, i+1);
-                onChanged?.call(this, [...items], [i, i+1], "Swapped items");
+                onChanged?.call(this, [...items], [i, i+1], "Swapped items (forward run)");
                 hasChanged = true;
             }
         }
 
-        for (let i = end - 2; i > 0; i--) {
+        for (let i = end - 1; i >= 0; i--) {
             if (items[i] > items[i+1]) {
                 swap(items, i, i+1);
-                onChanged?.call(this, [...items], [i, i+1], "Swapped items");
+                onChanged?.call(this, [...items], [i, i+1], "Swapped items (backward run)");
                 hasChanged = true;
             }
         }
